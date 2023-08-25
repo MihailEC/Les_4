@@ -38,6 +38,32 @@ cash = 0
 history_buy = {}
 
 
+def refill():
+  cash_up = int(input('Введите сумму пополнения: '))
+  global cash
+  if cash_up > 0:
+    cash = cash + cash_up
+    print(f'Счет пополнен. Сумма на счету: {cash}\n')
+  else:
+    print('Неверное значение суммы!\n')
+
+def buy():
+  global cash
+  global history_buy
+  buy_price = int(input('Введите сумму покупки: '))
+  if buy_price > 0:
+    if buy_price > cash:
+      print('Недостаточно средств на счете')
+      pass
+    else:
+      name_buy = input('Введите название покупки: ')
+      cash = cash - buy_price
+      history_buy[name_buy] = buy_price
+      print(f'Остаток средств: {cash}\n')
+      pass
+  else:
+    print('Сумма покупки не может быть отрицательной или равняться нулю!/n')
+
 
 while True:
     print('1. пополнение счета')
@@ -47,23 +73,21 @@ while True:
 
     choice = input('Выберите пункт меню: ')
     if choice == '1':
-        cash_up = int(input('Введите сумму пополнения: '))
-        cash = cash + cash_up
-        print('Сумма на счету:', cash)
+        try:
+          refill()
+        except ValueError:
+          print('Введите число!\n')
+          refill()
     elif choice == '2':
-        buy_price = int(input('Введите сумму покупки: '))
-        if buy_price > cash:
-            print('Недостаточно средств на счете')
-            pass
-        else:
-            name_buy = input('Введите название покупки: ')
-            cash = cash - buy_price
-            history_buy[name_buy] = buy_price
-            print('Остаток средств:', cash)
-            pass
+        try:
+          buy()
+        except ValueError:
+          print('Введите число!\n')
+          buy()
     elif choice == '3':
         for key, value in history_buy.items():
             print(key, '-', value)
+        print()
         pass
     elif choice == '4':
         break
