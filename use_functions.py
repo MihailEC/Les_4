@@ -35,34 +35,35 @@
 """
 
 cash = 0
-history_buy = {}
+history_buy = []
 
 
 def refill():
-  cash_up = int(input('Введите сумму пополнения: '))
-  global cash
-  if cash_up > 0:
-    cash = cash + cash_up
-    print(f'Счет пополнен. Сумма на счету: {cash}\n')
-  else:
-    print('Неверное значение суммы!\n')
+    cash_up = int(input('Введите сумму пополнения: '))
+    global cash
+    if cash_up > 0:
+        cash = cash + cash_up
+        print(f'Счет пополнен. Сумма на счету: {cash}\n')
+    else:
+        print('Неверное значение суммы!\n')
+
 
 def buy():
-  global cash
-  global history_buy
-  buy_price = int(input('Введите сумму покупки: '))
-  if buy_price > 0:
-    if buy_price > cash:
-      print('Недостаточно средств на счете')
-      pass
+    global cash
+    global history_buy
+    buy_price = int(input('Введите сумму покупки: '))
+    if buy_price > 0:
+        if buy_price > cash:
+            print('Недостаточно средств на счете')
+            pass
+        else:
+            name_buy = input('Введите название покупки: ')
+            cash = cash - buy_price
+            history_buy.append((name_buy, buy_price))
+            print(f'Остаток средств: {cash}\n')
+            pass
     else:
-      name_buy = input('Введите название покупки: ')
-      cash = cash - buy_price
-      history_buy[name_buy] = buy_price
-      print(f'Остаток средств: {cash}\n')
-      pass
-  else:
-    print('Сумма покупки не может быть отрицательной или равняться нулю!/n')
+        print('Сумма покупки не может быть отрицательной или равняться нулю!/n')
 
 
 while True:
@@ -74,19 +75,23 @@ while True:
     choice = input('Выберите пункт меню: ')
     if choice == '1':
         try:
-          refill()
+            refill()
         except ValueError:
-          print('Введите число!\n')
-          refill()
+            print('Введите число!\n')
+            refill()
     elif choice == '2':
         try:
-          buy()
+            buy()
         except ValueError:
-          print('Введите число!\n')
-          buy()
+            print('Введите число!\n')
+            buy()
     elif choice == '3':
-        for key, value in history_buy.items():
-            print(key, '-', value)
+        for l in history_buy:
+            print(l)
+            # for i in range(len(l)):
+            #     print(i, i + 1)
+            #     print(l[i], ':')
+            # print(l[1], '-', l[2])
         print()
         pass
     elif choice == '4':
